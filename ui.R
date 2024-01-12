@@ -1,33 +1,27 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# ui.R
 
 library(shiny)
+library(shinydashboard)
 
-# Define UI for application that draws a histogram
-fluidPage(
+shinyUI(
+  dashboardPage(
+    dashboardHeader(title = "Mon Dashboard"),
+    dashboardSidebar(
+    #Partie Filtre
+    ),
+    dashboardBody(
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+      tabsetPanel(
+        tabPanel("Menu",
+                h2("Bienvenue sur le tableau de bord!"),
+                p("C'est votre page d'accueil. Vous pouvez personnaliser cela.")
+                #Partie Menu
         ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
+        tabPanel("Graphique",
+                plotOutput("plot1", height = "400px")
+                #Partie Graphique
         )
+      )
     )
+  )
 )
