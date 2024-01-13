@@ -1,6 +1,24 @@
-library(shiny)
+source("packages.R")
+source("global.R")
 
 shinyServer(function(input, output, session) {
+  
+  filtered_data <- reactive({
+    print(input$country_filter)
+    filtered <- data %>% filter(countrycode(store_location, "iso2c", "country.name") %in% input$country_filter)
+    filtered$full_country_name <- countrycode(filtered$store_location, "iso2c", "country.name")
+    return(filtered)
+  })
+  
+  output$filtered_table <- renderTable({
+    filtered_data()
+  }) 
+  
+  output$filtered_count <- renderText({
+    paste("Nombre de résultats : ", nrow(filtered_data()))
+  })
+
+  
   
   # Variable pour suivre l'état du bouton
   graphState <- reactiveVal(TRUE)

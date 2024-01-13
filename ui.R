@@ -1,10 +1,18 @@
-library(shiny)
-library(shinydashboard)
+source("packages.R")
+#source("global.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Mon Dashboard"),
   dashboardSidebar(
     # Partie Filtre
+    pickerInput(
+      inputId = "country_filter",
+      label = "Choisir un pays",
+      choices = unique(countrycode(data$store_location, "iso2c", "country.name")),
+      options = list(`actions-box` = TRUE),
+      multiple = TRUE
+    )
+    
   ),
   dashboardBody(
     tabsetPanel(
@@ -33,8 +41,10 @@ ui <- dashboardPage(
                  )
                ),
                fluidRow(
+                 textOutput("filtered_count"),
                  actionButton("toggleButton", "On/Off"),
                  uiOutput("dynamicGraph")
+
                )
       ), # Fin du premier onglet "Menu"
       tabPanel("Graphique",
