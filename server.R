@@ -2,13 +2,33 @@ source("packages.R")
 source("global.R")
 
 shinyServer(function(input, output, session) {
+
+  observe({
+    if (input$continent_filter == "Tous les continents") {
+      updatePickerInput(session, "country_filter", choices = unique(countrycode(data$store_location, "iso2c", "country.name")))
+    } else {
+      countries_in_continent <- countrycode(data$store_location, "iso2c", "country.name")[countrycode(data$store_location, "iso2c", "continent") %in% input$continent_filter]
+      updatePickerInput(session, "country_filter", choices = unique(countries_in_continent))
+    }
+  })
   
   filtered_data <- reactive({
-    print(input$country_filter)
-    filtered <- data %>% filter(countrycode(store_location, "iso2c", "country.name") %in% input$country_filter)
+    if (input$continent_filter == "Tous les continents") {
+      filtered <- data
+    } else {
+      filtered <- data %>%
+        filter(countrycode(store_location, "iso2c", "continent") %in% input$continent_filter)
+    }
+    
+    if (!is.null(input$country_filter)) {
+      filtered <- filtered %>%
+        filter(countrycode(store_location, "iso2c", "country.name") %in% input$country_filter)
+    }
+    
     filtered$full_country_name <- countrycode(filtered$store_location, "iso2c", "country.name")
     return(filtered)
   })
+  
   
   output$filtered_table <- renderTable({
     filtered_data()
@@ -17,7 +37,7 @@ shinyServer(function(input, output, session) {
   output$filtered_count <- renderText({
     paste("Nombre de résultats : ", nrow(filtered_data()))
   })
-
+  
   
   
   # Variable pour suivre l'état du bouton

@@ -1,10 +1,18 @@
 source("packages.R")
-#source("global.R")
+source("global.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Mon Dashboard"),
   dashboardSidebar(
     # Partie Filtre
+    
+    pickerInput(
+      inputId = "continent_filter",
+      label = "Choisir un continent",
+      choices = c("Tous les continents", unique(countrycode(data$store_location, "iso2c", "continent"))),
+      options = list(`actions-box` = TRUE),
+      multiple = FALSE
+    ),
     pickerInput(
       inputId = "country_filter",
       label = "Choisir un pays",
@@ -12,6 +20,7 @@ ui <- dashboardPage(
       options = list(`actions-box` = TRUE),
       multiple = TRUE
     )
+    
     
   ),
   dashboardBody(
