@@ -20,6 +20,7 @@ ui <- dashboardPage(
       options = list(`actions-box` = TRUE),
       multiple = TRUE
     )
+  
     
     
   ),
@@ -27,30 +28,34 @@ ui <- dashboardPage(
     tabsetPanel(
       tabPanel("Menu",
                fluidRow(
-                 column(1), # Colonne vide pour le padding
                  column(3,
                         box(title = "Note moyenne ",
                             style = "height: 70px;",
-                            textOutput("Moyenne_note")
+                            textOutput("filtered_avg_rating")
                         )
                  ),
-                 column(1), # Colonne vide pour l'espace
                  column(3,
-                        box(title = "Nombre total d'avis",
-                            style = "height: 70px;",
-                            textOutput("nb_avis")
+                        box(
+                          title = "Nombre total d'avis",
+                          style = "height: 70px;",  # Ajustez les valeurs selon vos préférences
+                          textOutput("filtered_count")
                         )
                  ),
-                 column(1), # Colonne vide pour l'espace
                  column(3,
-                        box(title = HTML("Ratio de notes 5 <i class='fa fa-star'></i>"),
+                        box(title = HTML("Nombre de 5 <i class='fa fa-star'></i>"),
                             style = "height: 70px;",
-                            textOutput("ratio_5")
+                            textOutput("nb_5_note")
+                        )
+                 ),
+                 column(3,
+                        box(title = HTML("Ratio de 5 <i class='fa fa-star'></i>"),
+                            style = "height: 70px;",
+                            textOutput("filtered_ratio_percentage")
                         )
                  )
                ),
+               
                fluidRow(
-                 textOutput("filtered_count"),
                  actionButton("toggleButton", "On/Off"),
                  uiOutput("dynamicGraph")
 

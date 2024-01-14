@@ -1,8 +1,7 @@
 source("packages.R")
-source("global.R")
+#source("global.R")
 
 shinyServer(function(input, output, session) {
-
   observe({
     if (input$continent_filter == "Tous les continents") {
       updatePickerInput(session, "country_filter", choices = unique(countrycode(data$store_location, "iso2c", "country.name")))
@@ -35,9 +34,33 @@ shinyServer(function(input, output, session) {
   }) 
   
   output$filtered_count <- renderText({
-    paste("Nombre de résultats : ", nrow(filtered_data()))
+    paste(nrow(filtered_data()))
   })
   
+  output$nb_5_note <- renderText({
+    filtered <- filtered_data()
+    
+    # Compter le nombre de notes égales à 5 dans la colonne review.label
+    count_5 <- sum(filtered$review.label == 5)
+    
+    return(paste(count_5))
+  })
+  
+  output$filtered_avg_rating <- renderText({
+    filtered <- filtered_data()
+
+    avg_rating <- mean(filtered$review.label)
+      return(paste(round(avg_rating, 2)))
+  })
+  
+  output$filtered_ratio_percentage <- renderText({
+    filtered <- filtered_data()
+    
+    ratio_percentage <- (sum(filtered$review.label == 5) / nrow(filtered)) * 100
+    return(paste(round(ratio_percentage, 2), "%"))
+  })
+  
+
   
   
   # Variable pour suivre l'état du bouton
