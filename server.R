@@ -74,9 +74,36 @@ shinyServer(function(input, output, session) {
   # Afficher ce qu'on veut  en fonction de l'état
   output$dynamicGraph <- renderUI({
     if(graphState()) {
-      plotOutput("graph1", height = "500px")
+      random_boxes <- reactiveVal(NULL)
+      
+      observeEvent(input$refreshButton, {
+        random_boxes(sample_n(data, 3))
+      })
+      
+      output$dynamicGraph <- renderUI({
+        boxes <- random_boxes()
+        
+        if (!is.null(boxes)) {
+          box_list <- lapply(seq_len(nrow(boxes)), function(i) {
+            box(
+              title = h4(boxes$title[i]),
+              width = 4,
+              status = "primary",
+              solidHeader = TRUE,
+              collapsible = TRUE,
+              background = "black",
+              p(boxes$review[i]),
+              footer = paste("Note : ", boxes$review.label[i])
+            )
+          })
+          
+          tagList(box_list)
+        } else {
+          HTML("Appuyez sur le bouton Actualiser pour afficher des commentaires.")
+        }
+      })
     } else {
-      plotOutput("graph2", height = "500px")
+      p("test")
     }
   })
   

@@ -57,7 +57,8 @@ ui <- dashboardPage(
                
                fluidRow(
                  actionButton("toggleButton", "On/Off"),
-                 uiOutput("dynamicGraph")
+                 uiOutput("dynamicGraph"),
+                 actionButton("refreshButton", "Actualiser")
 
                )
       ), # Fin du premier onglet "Menu"
