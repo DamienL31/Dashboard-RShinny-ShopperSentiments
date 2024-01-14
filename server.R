@@ -116,11 +116,9 @@ shinyServer(function(input, output, session) {
               title = h4(boxes$title[i]),
               width = 4,
               status = "primary",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              background = "gray",
+              background = "black",
               tags$div(
-                style = "color: light-blue;",  # Changer la couleur du texte ici
+                style = "color:white;",
                 lapply(seq_len(boxes$review.label[i]), function(j) {
                   icon("star")
                 })),
