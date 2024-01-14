@@ -20,7 +20,7 @@ ui <- dashboardPage(
       options = list(`actions-box` = TRUE),
       multiple = TRUE
     )
-  
+    
     
     
   ),
@@ -29,37 +29,25 @@ ui <- dashboardPage(
       tabPanel("Menu",
                fluidRow(
                  column(3,
-                        box(title = "Note moyenne ",
-                            style = "height: 70px;",
-                            textOutput("filtered_avg_rating")
-                        )
+                        valueBoxOutput("filtered_avg_rating", width = 12)
+                 ),                 
+                 column(3,
+                        valueBoxOutput("filtered_count", width = 12)
                  ),
                  column(3,
-                        box(
-                          title = "Nombre total d'avis",
-                          style = "height: 70px;",  # Ajustez les valeurs selon vos préférences
-                          textOutput("filtered_count")
-                        )
+                        valueBoxOutput("nb_5_note", width = 12)
                  ),
                  column(3,
-                        box(title = HTML("Nombre de 5 <i class='fa fa-star'></i>"),
-                            style = "height: 70px;",
-                            textOutput("nb_5_note")
-                        )
-                 ),
-                 column(3,
-                        box(title = HTML("Ratio de 5 <i class='fa fa-star'></i>"),
-                            style = "height: 70px;",
-                            textOutput("filtered_ratio_percentage")
-                        )
+                        valueBoxOutput("filtered_ratio_percentage", width = 12)
                  )
                ),
+            
                
                fluidRow(
                  actionButton("toggleButton", "On/Off"),
                  uiOutput("dynamicGraph"),
                  actionButton("refreshButton", "Actualiser")
-
+                 
                )
       ), # Fin du premier onglet "Menu"
       tabPanel("Graphique",
@@ -77,7 +65,7 @@ ui <- dashboardPage(
                  column(12,
                         h3("Evolution des avis en fonction du temps",  class = "text-center"),
                         plotOutput("evo_avis_temps", height = "400px")
-       ) )       # Partie Graphique
+                 ) )       # Partie Graphique
       ) # Fin du deuxième onglet "Graphique"
     ) # Fin de tabsetPanel
   ) # Fin de dashboardBody
