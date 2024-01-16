@@ -1,5 +1,5 @@
 source("packages.R")
-source("global.R")
+#source("global.R")
 
 shinyServer(function(input, output, session) {
   
@@ -34,9 +34,60 @@ shinyServer(function(input, output, session) {
     filtered_data()
   }) 
   
-  output$filtered_count <- renderText({
-    paste("Nombre de résultats : ", nrow(filtered_data()))
+  output$filtered_count <- renderValueBox({
+    valueBox(
+      value = nrow(filtered_data()),
+      subtitle = "Nombre d'avis",
+      icon = icon("list-ul"),
+      color = "fuchsia",
+      
+    )
   })
+  
+  output$nb_5_note <- renderValueBox({
+    filtered <- filtered_data()
+    
+    # Compter le nombre de notes égales à 5 dans la colonne review.label
+    count_5 <- sum(filtered$review.label == 5)
+    
+    
+    valueBox(
+      value = count_5,
+      subtitle = "Nombre d'avis à 5 étoiles",
+      icon = icon("star"),
+      color = "light-blue",
+      
+    )
+  })
+  
+  output$filtered_avg_rating <- renderValueBox({
+    filtered <- filtered_data()
+    
+    avg_rating <- mean(filtered$review.label)
+    
+    valueBox(
+      value = round(avg_rating,2),
+      subtitle = "Note moyenne",
+      icon = icon("bar-chart"),
+      color = "light-blue",
+      
+    )
+  })
+  
+  output$filtered_ratio_percentage <- renderValueBox({
+    filtered <- filtered_data()
+    
+    ratio_percentage <- (sum(filtered$review.label == 5) / nrow(filtered)) * 100
+    
+    valueBox(
+      value = paste0(round(ratio_percentage, 1),"%"),
+      subtitle = "Ration d'avis à 5 étoiles",
+      icon = icon("star-half-alt"),
+      color = "fuchsia",
+      
+    )
+  })
+  
   
   
   
@@ -55,7 +106,7 @@ shinyServer(function(input, output, session) {
     } else if (graphState()) {
       plotOutput("trends_5", height = "500px")
     } else {
-      plotOutput("temporal_analysis", height = "500px") 
+      plotOutput("temporal_analysis", height = "500px")
     }
   })
   

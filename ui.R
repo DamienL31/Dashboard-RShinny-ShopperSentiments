@@ -23,38 +23,32 @@ ui <- dashboardPage(
     )
     
     
+    
   ),
   dashboardBody(
     tabsetPanel(
       tabPanel("Menu",
                fluidRow(
-                 column(1), # Colonne vide pour le padding
                  column(3,
-                        box(title = "Note moyenne ",
-                            style = "height: 70px;",
-                            textOutput("Moyenne_note")
-                        )
+                        valueBoxOutput("filtered_avg_rating", width = 12)
+                 ),                 
+                 column(3,
+                        valueBoxOutput("filtered_count", width = 12)
                  ),
-                 column(1), # Colonne vide pour l'espace
                  column(3,
-                        box(title = "Nombre total d'avis",
-                            style = "height: 70px;",
-                            textOutput("nb_avis")
-                        )
+                        valueBoxOutput("nb_5_note", width = 12)
                  ),
-                 column(1), # Colonne vide pour l'espace
                  column(3,
-                        box(title = HTML("Ratio de notes 5 <i class='fa fa-star'></i>"),
-                            style = "height: 70px;",
-                            textOutput("ratio_5")
-                        )
+                        valueBoxOutput("filtered_ratio_percentage", width = 12)
                  )
                ),
+            
+               
                fluidRow(
-                 textOutput("filtered_count"),
                  actionButton("toggleButton", "On/Off"),
-                 uiOutput("dynamicGraph")
-
+                 uiOutput("dynamicGraph"),
+                 actionButton("refreshButton", "Actualiser")
+                 
                )
       ), # Fin du premier onglet "Menu"
       tabPanel("Graphiques",
