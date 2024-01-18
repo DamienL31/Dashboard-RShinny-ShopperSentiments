@@ -1,7 +1,8 @@
 source("packages.R")
-#source("global.R")
+source("global.R")
 
 shinyServer(function(input, output, session) {
+  
   observe({
     if (input$continent_filter == "Tous les continents") {
       updatePickerInput(session, "country_filter", choices = unique(countrycode(data$store_location, "iso2c", "country.name")))
@@ -28,7 +29,6 @@ shinyServer(function(input, output, session) {
     return(filtered)
   })
   
-  
   output$filtered_table <- renderTable({
     filtered_data()
   }) 
@@ -39,55 +39,41 @@ shinyServer(function(input, output, session) {
       subtitle = "Nombre d'avis",
       icon = icon("list-ul"),
       color = "fuchsia",
-      
     )
   })
   
   output$nb_5_note <- renderValueBox({
     filtered <- filtered_data()
-    
-    # Compter le nombre de notes égales à 5 dans la colonne review.label
     count_5 <- sum(filtered$review.label == 5)
-    
-    
     valueBox(
       value = count_5,
       subtitle = "Nombre d'avis à 5 étoiles",
       icon = icon("star"),
       color = "light-blue",
-      
     )
   })
   
   output$filtered_avg_rating <- renderValueBox({
     filtered <- filtered_data()
-    
     avg_rating <- mean(filtered$review.label)
-    
     valueBox(
       value = round(avg_rating,2),
       subtitle = "Note moyenne",
       icon = icon("bar-chart"),
       color = "light-blue",
-      
     )
   })
   
   output$filtered_ratio_percentage <- renderValueBox({
     filtered <- filtered_data()
-    
     ratio_percentage <- (sum(filtered$review.label == 5) / nrow(filtered)) * 100
-    
     valueBox(
       value = paste0(round(ratio_percentage, 1),"%"),
       subtitle = "Ration d'avis à 5 étoiles",
       icon = icon("star-half-alt"),
       color = "fuchsia",
-      
     )
   })
-  
-
   
   # Variable pour suivre l'état du bouton
   graphState <- reactiveVal(TRUE)
@@ -102,8 +88,34 @@ shinyServer(function(input, output, session) {
     if(graphState()) {
       random_boxes <- reactiveVal(NULL)
       
+      observeEvent(c(input$continent_filter, input$country_filter), {
+        # Filtrer les données en fonction des filtres continentaux et nationaux
+        filtered_data_sample <- filtered_data()
+        
+        num_comments <- nrow(filtered_data_sample)
+        
+        if (num_comments > 1) {
+          # Utiliser sample_n uniquement si vous avez plus d'un commentaire
+          filtered_data_sample <- sample_n(filtered_data_sample, min(3, num_comments), replace = TRUE)
+        }
+        
+        random_boxes(filtered_data_sample)
+      })
+      
+      # Observer le bouton Actualiser
       observeEvent(input$refreshButton, {
-        random_boxes(sample_n(data, 3))
+        # Filtrer les données en fonction des filtres continentaux et nationaux
+        filtered_data_sample <- filtered_data()
+        
+        # Vérifier le nombre de commentaires disponibles
+        num_comments <- nrow(filtered_data_sample)
+        
+        if (num_comments > 1) {
+          # Utiliser sample_n uniquement si vous avez plus d'un commentaire
+          filtered_data_sample <- sample_n(filtered_data_sample, min(3, num_comments), replace = TRUE)
+        }
+        
+        random_boxes(filtered_data_sample)
       })
       
       output$dynamicGraph <- renderUI({
@@ -126,7 +138,6 @@ shinyServer(function(input, output, session) {
                 boxes$review[i]
               )
             )
-            
           })
           
           tagList(box_list)
@@ -139,6 +150,9 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  
+
+  
   # Graph 1 distribution of review by label
   output$scores_distribution <- renderPlot({ 
     filtered_data <- filtered_data()
@@ -149,21 +163,26 @@ shinyServer(function(input, output, session) {
            x = "score",
            y = "Count") +
       geom_text(stat = "count", aes(label = stat(count)), vjust = -0.3)
-    
-  # Génération des graphiques (Remplacez avec votre propre logique de graphique)
-  output$graph1 <- renderPlot({ 
-    # Votre code pour générer le premier graphique
-    # on fait une map mais ça devrait marcher quand même 
-    
   })
-  output$graph2 <- renderPlot({ 
-    # Votre code pour générer le second graphique
-    # ici on va pas générer un graphique mais j'imagine que c'est la même chose
+  
+  output$trends_5 <- renderPlot({ 
+    filtered_data <- filtered_data()
     
+    top_avis_filtre <- filtered_data %>%
+      filter(review.label == 5) %>%
+      group_by(review.label,mois_annee) %>%
+      summarise(count = n())
+    
+    ggplot(top_avis_filtre, aes(x = mois_annee, y = count)) +
+      geom_line() +
+      labs(title = "Trends in 5 review label over the years",
+           x = "Years",
+           y = "count") +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+      scale_x_date(date_labels = "%Y", date_breaks = "1 year")
   })
   
   #Graph 3 Temporal analysis 
-  
   output$temporal_analysis <- renderPlot({ 
     filtered_data <- filtered_data()
     
@@ -171,7 +190,6 @@ shinyServer(function(input, output, session) {
     top_avis <- filtered_data %>%
       group_by(review.label,mois_annee) %>%
       summarise(count = n())
-    
     
     #Graph stack bar reviewlabel by month-year
     ggplot(top_avis, aes(x = mois_annee, y = count, fill = as.factor(review.label))) +
@@ -182,13 +200,4 @@ shinyServer(function(input, output, session) {
       theme(axis.text.x = element_text(angle = 90, hjust = 1))+
       scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month")
   })
-  
-  
-  
-  
 })
-  
-  
-})
-
-  
