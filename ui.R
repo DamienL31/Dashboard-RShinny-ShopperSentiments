@@ -22,7 +22,8 @@ ui <- dashboardPage(
       actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
       style = "position: absolute; bottom: 10px"
     )
-  ),
+  ), 
+
   dashboardBody(
     tabsetPanel(
       tabPanel("Menu",
@@ -61,3 +62,31 @@ ui <- dashboardPage(
     )
   )
 )
+                 actionButton("refreshButton", "Actualiser")
+               )
+      ) 
+    ),
+    tabsetPanel(
+    tabPanel("Graphique",
+             fluidRow(
+               column(12,
+                      h3("Scores Distribution",  class = "text-center"),
+                      plotOutput("scores_distribution", height = "300px") 
+               ),
+               fluidRow(
+                 column(12,
+                        h3("Trends in 5 review label over the years",  class = "text-center"),
+                        plotOutput("trends_5", height = "300px")
+                 )
+               ),
+               fluidRow(
+                 column(12,
+                        h3("Temporal analysis of reviews",  class = "text-center"),
+                        plotOutput("temporal_analysis", height = "400px")
+                 )
+               )
+             )
+    )
+  ) 
+) 
+>>>>>>> 507b367a904fd813623006bcafa225757dbac7d2
