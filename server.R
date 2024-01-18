@@ -2,7 +2,6 @@ source("packages.R")
 source("global.R")
 
 shinyServer(function(input, output, session) {
-  
   observe({
     if (input$continent_filter == "Tous les continents") {
       updatePickerInput(session, "country_filter", choices = unique(countrycode(data$store_location, "iso2c", "country.name")))
@@ -101,15 +100,45 @@ shinyServer(function(input, output, session) {
   
   # Afficher ce qu'on veut  en fonction de l'état
   output$dynamicGraph <- renderUI({
-    if (graphState()) {
-      plotOutput("scores_distribution", height = "500px")
-    } else if (graphState()) {
-      plotOutput("trends_5", height = "500px")
+    if(graphState()) {
+      random_boxes <- reactiveVal(NULL)
+      
+      observeEvent(input$refreshButton, {
+        random_boxes(sample_n(data, 3))
+      })
+      
+      output$dynamicGraph <- renderUI({
+        boxes <- random_boxes()
+        
+        if (!is.null(boxes)) {
+          box_list <- lapply(seq_len(nrow(boxes)), function(i) {
+            box(
+              title = h4(boxes$title[i]),
+              width = 4,
+              status = "primary",
+              background = "black",
+              tags$div(
+                style = "color:white;",
+                lapply(seq_len(boxes$review.label[i]), function(j) {
+                  icon("star")
+                })),
+              footer = tags$div(
+                style = "color: black;",  
+                boxes$review[i]
+              )
+            )
+            
+          })
+          
+          tagList(box_list)
+        } else {
+          HTML("Appuyez sur le bouton Actualiser pour afficher des commentaires.")
+        }
+      })
     } else {
-      plotOutput("temporal_analysis", height = "500px")
+      p("test")
     }
   })
-  
   
   # Graph 1 distribution of review by label
   output$scores_distribution <- renderPlot({ 
@@ -166,5 +195,6 @@ shinyServer(function(input, output, session) {
   })
   
   
-  #suite du code où y aura vos calculs
+  
+  
 })

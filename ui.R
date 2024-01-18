@@ -26,6 +26,7 @@ ui <- dashboardPage(
     
   ),
   dashboardBody(
+    
     tabsetPanel(
       tabPanel("Menu",
                fluidRow(
@@ -55,19 +56,20 @@ ui <- dashboardPage(
                fluidRow(
                  column(12,
                         h3("Scores Distribution",  class = "text-center"),
-                        plotOutput("scores_distribution", height = "300px")
+                        plotOutput("scores_distribution", height = "300px") 
                  ),
                  fluidRow(
-                 column(12,
-                        h3("Trends in 5 review label over the years",  class = "text-center"),
-                        plotOutput("trends_5", height = "300px")
-                 )
-               ),
-               fluidRow(
-                 column(12,
-                        h3("Temporal analysis of reviews",  class = "text-center"),
-                        plotOutput("temporal_analysis", height = "400px")
-       ) ) )       # Partie Graphique
+                   column(12,
+                          h3("Trends in 5 review label over the years",  class = "text-center"),
+                          plotOutput("trends_5", height = "300px")
+                   )
+                 ),
+                 fluidRow(
+                   column(12,
+                          h3("Temporal analysis of reviews",  class = "text-center"),
+                          plotOutput("temporal_analysis", height = "400px")
+                   ) ) )
+               # Partie Graphique
       ) # Fin du deuxième onglet "Graphique"
     ) # Fin de tabsetPanel
   ) # Fin de dashboardBody
