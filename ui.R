@@ -1,5 +1,6 @@
 source("packages.R")
 source("global.R")
+source("server.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Mon Dashboard"),
@@ -50,22 +51,23 @@ ui <- dashboardPage(
                  
                )
       ), # Fin du premier onglet "Menu"
-      tabPanel("Graphique",
+      tabPanel("Graphiques",
                fluidRow(
-                 column(6,
-                        h3("Répartition des avis",  class = "text-center"),
-                        plotOutput("repart_avis", height = "300px")
+                 column(12,
+                        h3("Scores Distribution",  class = "text-center"),
+                        plotOutput("scores_distribution", height = "300px")
                  ),
-                 column(6,
-                        h3("Inchallah on trouve",  class = "text-center"),
-                        plotOutput("graph2", height = "300px")
+                 fluidRow(
+                 column(12,
+                        h3("Trends in 5 review label over the years",  class = "text-center"),
+                        plotOutput("trends_5", height = "300px")
                  )
                ),
                fluidRow(
                  column(12,
-                        h3("Evolution des avis en fonction du temps",  class = "text-center"),
-                        plotOutput("evo_avis_temps", height = "400px")
-                 ) )       # Partie Graphique
+                        h3("Temporal analysis of reviews",  class = "text-center"),
+                        plotOutput("temporal_analysis", height = "400px")
+       ) ) )       # Partie Graphique
       ) # Fin du deuxième onglet "Graphique"
     ) # Fin de tabsetPanel
   ) # Fin de dashboardBody
