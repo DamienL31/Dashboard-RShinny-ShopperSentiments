@@ -24,14 +24,8 @@ ui <- dashboardPage(
       actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
       style = "position: absolute; bottom: 10px"
     )
-    
-    
-    
-    
-    
-  ),
+  ), 
   dashboardBody(
-    
     tabsetPanel(
       tabPanel("Menu",
                fluidRow(
@@ -48,47 +42,33 @@ ui <- dashboardPage(
                         valueBoxOutput("filtered_ratio_percentage", width = 12)
                  )
                ),
-               
-               
                fluidRow(
                  actionButton("toggleButton", "On/Off"),
                  uiOutput("dynamicGraph"),
                  actionButton("refreshButton", "Actualiser")
-                 
                )
-      ), # Fin du premier onglet "Menu"
-      tabPanel("Graphique",
+      ) 
+    ),
+    tabsetPanel(
+    tabPanel("Graphique",
+             fluidRow(
+               column(12,
+                      h3("Scores Distribution",  class = "text-center"),
+                      plotOutput("scores_distribution", height = "300px") 
+               ),
                fluidRow(
                  column(12,
-                        h3("Scores Distribution",  class = "text-center"),
-                        plotOutput("scores_distribution", height = "300px") 
-                 ),
-                 fluidRow(
-                   column(12,
-                          h3("Trends in 5 review label over the years",  class = "text-center"),
-                          plotOutput("trends_5", height = "300px")
-                   )
-                 ),
-                 fluidRow(
-                   column(12,
-                          h3("Temporal analysis of reviews",  class = "text-center"),
-                          plotOutput("temporal_analysis", height = "400px")
-                   ) ) ),
-               # Partie Graphique
-               column(6,
-                      h3("Répartition des avis",  class = "text-center"),
-                      plotOutput("repart_avis", height = "300px")
+                        h3("Trends in 5 review label over the years",  class = "text-center"),
+                        plotOutput("trends_5", height = "300px")
+                 )
                ),
-               column(6,
-                      h3("Inchallah on trouve",  class = "text-center"),
-                      plotOutput("graph2", height = "300px")
+               fluidRow(
+                 column(12,
+                        h3("Temporal analysis of reviews",  class = "text-center"),
+                        plotOutput("temporal_analysis", height = "400px")
+                 )
                )
-      ),
-      fluidRow(
-        column(12,
-               h3("Evolution des avis en fonction du temps",  class = "text-center"),
-               plotOutput("evo_avis_temps", height = "400px")
-        ) )       # Partie Graphique
+             )
     )
-  )
+  ) 
 ) 

@@ -149,20 +149,9 @@ shinyServer(function(input, output, session) {
            x = "score",
            y = "Count") +
       geom_text(stat = "count", aes(label = stat(count)), vjust = -0.3)
-    
-  # Génération des graphiques (Remplacez avec votre propre logique de graphique)
-  output$graph1 <- renderPlot({ 
-    # Votre code pour générer le premier graphique
-    # on fait une map mais ça devrait marcher quand même 
-    
-  })
-  output$graph2 <- renderPlot({ 
-    # Votre code pour générer le second graphique
-    # ici on va pas générer un graphique mais j'imagine que c'est la même chose
-    
-  })
+
   
-  #Graph 3 Temporal analysis 
+  #Graph 2 Temporal analysis 
   
   output$temporal_analysis <- renderPlot({ 
     filtered_data <- filtered_data()
@@ -173,7 +162,7 @@ shinyServer(function(input, output, session) {
       summarise(count = n())
     
     
-    #Graph stack bar reviewlabel by month-year
+    #Graph 3 stack bar reviewlabel by month-year
     ggplot(top_avis, aes(x = mois_annee, y = count, fill = as.factor(review.label))) +
       geom_bar(stat = "identity", position = "stack") +
       labs(title = "Temporal analysis of reviews",
