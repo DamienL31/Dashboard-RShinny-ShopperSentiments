@@ -87,8 +87,7 @@ shinyServer(function(input, output, session) {
     )
   })
   
-  
-  
+
   
   # Variable pour suivre l'état du bouton
   graphState <- reactiveVal(TRUE)
@@ -140,6 +139,17 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  # Graph 1 distribution of review by label
+  output$scores_distribution <- renderPlot({ 
+    filtered_data <- filtered_data()
+    
+    ggplot(filtered_data, aes(x = review.label)) +
+      geom_histogram(binwidth = 1, fill = "skyblue", color = "black", alpha = 0.8) +
+      labs(title = "Scores distribution",
+           x = "score",
+           y = "Count") +
+      geom_text(stat = "count", aes(label = stat(count)), vjust = -0.3)
+    
   # Génération des graphiques (Remplacez avec votre propre logique de graphique)
   output$graph1 <- renderPlot({ 
     # Votre code pour générer le premier graphique
@@ -152,9 +162,36 @@ shinyServer(function(input, output, session) {
     
   })
   
-  #suite du code où y aura vos calculs
+  #Graph 3 Temporal analysis 
+  
+  output$temporal_analysis <- renderPlot({ 
+    filtered_data <- filtered_data()
+    
+    #DF pour avoir le count par mois-année
+    top_avis <- filtered_data %>%
+      group_by(review.label,mois_annee) %>%
+      summarise(count = n())
+    
+    
+    #Graph stack bar reviewlabel by month-year
+    ggplot(top_avis, aes(x = mois_annee, y = count, fill = as.factor(review.label))) +
+      geom_bar(stat = "identity", position = "stack") +
+      labs(title = "Temporal analysis of reviews",
+           x = "Month-Year",
+           y = "Count by labels") +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+      scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month")
+  })
+  
+  
+  
   
   
 
   
 })
+  
+  
+})
+
+  
