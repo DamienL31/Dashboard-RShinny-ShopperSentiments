@@ -151,7 +151,7 @@ shinyServer(function(input, output, session) {
   })
   
   
-
+  
   
   # Graph 1 distribution of review by label
   output$scores_distribution <- renderPlot({ 
@@ -163,7 +163,6 @@ shinyServer(function(input, output, session) {
            x = "score",
            y = "Count") +
       geom_text(stat = "count", aes(label = stat(count)), vjust = -0.3)
-<<<<<<< HEAD
   })
   
   output$trends_5 <- renderPlot({ 
@@ -184,12 +183,6 @@ shinyServer(function(input, output, session) {
   })
   
   #Graph 3 Temporal analysis 
-=======
-
-  
-  #Graph 2 Temporal analysis 
-  
->>>>>>> 507b367a904fd813623006bcafa225757dbac7d2
   output$temporal_analysis <- renderPlot({ 
     filtered_data <- filtered_data()
     
@@ -198,12 +191,7 @@ shinyServer(function(input, output, session) {
       group_by(review.label,mois_annee) %>%
       summarise(count = n())
     
-<<<<<<< HEAD
     #Graph stack bar reviewlabel by month-year
-=======
-    
-    #Graph 3 stack bar reviewlabel by month-year
->>>>>>> 507b367a904fd813623006bcafa225757dbac7d2
     ggplot(top_avis, aes(x = mois_annee, y = count, fill = as.factor(review.label))) +
       geom_bar(stat = "identity", position = "stack") +
       labs(title = "Temporal analysis of reviews",
@@ -212,14 +200,4 @@ shinyServer(function(input, output, session) {
       theme(axis.text.x = element_text(angle = 90, hjust = 1))+
       scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month")
   })
-<<<<<<< HEAD
-=======
-  
-  
-  
-  
-  
-
-  
->>>>>>> 507b367a904fd813623006bcafa225757dbac7d2
 })
