@@ -1,5 +1,5 @@
 source("packages.R")
-source("global.R")
+#source("global.R")
 
 shinyServer(function(input, output, session) {
   observe({
@@ -140,6 +140,7 @@ shinyServer(function(input, output, session) {
     }
   })
   
+<<<<<<< HEAD
   # Graph 1 distribution of review by label
   output$scores_distribution <- renderPlot({ 
     filtered_data <- filtered_data()
@@ -151,28 +152,21 @@ shinyServer(function(input, output, session) {
            y = "Count") +
       geom_text(stat = "count", aes(label = stat(count)), vjust = -0.3)
     
+=======
+  # Génération des graphiques (Remplacez avec votre propre logique de graphique)
+  output$graph1 <- renderPlot({ 
+    # Votre code pour générer le premier graphique
+    # on fait une map mais ça devrait marcher quand même 
+>>>>>>> e3dc4389f25eaea6bd69a59551b016bcfa7a54fd
+    
+  })
+  output$graph2 <- renderPlot({ 
+    # Votre code pour générer le second graphique
+    # ici on va pas générer un graphique mais j'imagine que c'est la même chose
     
   })
   
-  #Graph2 trends over years 
-  
-  output$trends_5 <- renderPlot({ 
-    filtered_data <- filtered_data()
-    
-    top_avis_filtre <- filtered_data %>%
-      filter(review.label == 5) %>%
-      group_by(review.label,mois_annee) %>%
-      summarise(count = n())
-    
-    ggplot(top_avis_filtre, aes(x = mois_annee, y = count)) +
-      geom_line() +
-      labs(title = "Trends in 5 review label over the years",
-           x = "Years",
-           y = "count") +
-      theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-      scale_x_date(date_labels = "%Y", date_breaks = "1 year")
-  })
-  
+<<<<<<< HEAD
   #Graph 3 Temporal analysis 
   
   output$temporal_analysis <- renderPlot({ 
@@ -198,3 +192,17 @@ shinyServer(function(input, output, session) {
   
   
 })
+=======
+  #suite du code où y aura vos calculs
+  
+  
+<<<<<<< HEAD
+  
+  
+})
+=======
+
+  
+})
+>>>>>>> 1ecccb9c51253d27edb5198722bf7275f178e65b
+>>>>>>> e3dc4389f25eaea6bd69a59551b016bcfa7a54fd
