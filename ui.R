@@ -64,29 +64,33 @@ ui <- dashboardPage(
       tabPanel("Graphique",
                fluidRow(
                  column(12,
-                        h3("Scores Distribution",  class = "text-center"),
+                        h3("Distribution des notes",  class = "text-center"),
                         plotOutput("scores_distribution", height = "300px") 
                  ),
                  fluidRow(
                    column(12,
-                          h3("Trends in 5 review label over the years",  class = "text-center"),
+                          h3("Tendances des 5 étoiles au fil des années",  class = "text-center"),
                           plotOutput("trends_5", height = "300px")
                    )
                  ),
                  fluidRow(
                    column(12,
-                          h3("Temporal analysis of reviews",  class = "text-center"),
+                          h3("Analyse temporelle des notes",  class = "text-center"),
                           plotOutput("temporal_analysis", height = "400px")
                    )
                  )
                ),
       ),
-      tabPanel("Données",
+      tabPanel("Map",
                fluidRow(
-                  p("test")
+                 #
                ),
       ),
-      
+      tabPanel("Donnees",
+               fluidRow(
+                 dataTableOutput("print_data")
+               ),
+      )
     )
   )
 )
