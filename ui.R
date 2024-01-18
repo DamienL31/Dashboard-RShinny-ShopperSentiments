@@ -24,7 +24,17 @@ ui <- dashboardPage(
       actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
       style = "position: absolute; bottom: 10px"
     )
+<<<<<<< HEAD
   ), 
+=======
+
+    
+    
+    
+    
+    
+  ),
+>>>>>>> a28003f0f8fd4d4a346eb37f18673d9f058213d1
   dashboardBody(
     tabsetPanel(
       tabPanel("Menu",
