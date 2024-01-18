@@ -11,6 +11,11 @@ ui <- dashboardPage(
       options = list(`actions-box` = TRUE),
       multiple = FALSE
     ),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
     pickerInput(
       inputId = "country_filter",
       label = "Choisir un pays",
