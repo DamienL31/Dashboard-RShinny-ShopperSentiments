@@ -1,5 +1,5 @@
 source("packages.R")
-#source("global.R")
+source("global.R")
 
 shinyServer(function(input, output, session) {
   
