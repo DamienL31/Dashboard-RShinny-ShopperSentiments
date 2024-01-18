@@ -80,7 +80,7 @@ shinyServer(function(input, output, session) {
     
     valueBox(
       value = paste0(round(ratio_percentage, 1),"%"),
-      subtitle = "Ration d'avis à 5 étoiles",
+      subtitle = "Ratio d'avis à 5 étoiles",
       icon = icon("star-half-alt"),
       color = "fuchsia",
       
