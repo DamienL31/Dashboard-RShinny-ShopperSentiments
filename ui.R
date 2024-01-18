@@ -18,6 +18,29 @@ ui <- dashboardPage(
       options = list(`actions-box` = TRUE),
       multiple = TRUE
     ),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    br(),
+    dateRangeInput(
+      inputId = "date_range_filter",
+      label = "Choisir une plage de dates",
+      start = min(data$mois_annee),
+      end = max(data$mois_annee),
+      min = min(data$mois_annee),
+      max = max(data$mois_annee),
+      format = "yyyy-mm-dd",
+      separator = " - "
+    ),
     div(
       actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
       style = "position: absolute; bottom: 10px"
@@ -57,7 +80,13 @@ ui <- dashboardPage(
                    )
                  )
                ),
-      ),    
+      ),
+      tabPanel("Données",
+               fluidRow(
+                  p("test")
+               ),
+      ),
+      
     )
   )
 )

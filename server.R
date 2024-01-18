@@ -26,6 +26,16 @@ shinyServer(function(input, output, session) {
     }
     
     filtered$full_country_name <- countrycode(filtered$store_location, "iso2c", "country.name")
+    
+    # Filtre de plage de dates
+    startDate <- input$date_range_filter[1]
+    endDate <- input$date_range_filter[2]
+    
+    if (!is.null(startDate) && !is.null(endDate)) {
+      filtered <- filtered %>%
+        filter(mois_annee >= startDate & mois_annee <= endDate)
+    }
+    
     return(filtered)
   })
   
@@ -88,8 +98,8 @@ shinyServer(function(input, output, session) {
     if(graphState()) {
       random_boxes <- reactiveVal(NULL)
       
-      observeEvent(c(input$continent_filter, input$country_filter), {
-        # Filtrer les données en fonction des filtres continentaux et nationaux
+      observeEvent(c(input$continent_filter, input$country_filter, input$date_range_filter), {
+        # Filtrer les données en fonction des filtres continentaux, nationaux et plage de dates
         filtered_data_sample <- filtered_data()
         
         num_comments <- nrow(filtered_data_sample)
@@ -104,7 +114,7 @@ shinyServer(function(input, output, session) {
       
       # Observer le bouton Actualiser
       observeEvent(input$refreshButton, {
-        # Filtrer les données en fonction des filtres continentaux et nationaux
+        # Filtrer les données en fonction des filtres continentaux, nationaux et plage de dates
         filtered_data_sample <- filtered_data()
         
         # Vérifier le nombre de commentaires disponibles
@@ -149,9 +159,6 @@ shinyServer(function(input, output, session) {
       p("test")
     }
   })
-  
-  
-  
   
   # Graph 1 distribution of review by label
   output$scores_distribution <- renderPlot({ 
