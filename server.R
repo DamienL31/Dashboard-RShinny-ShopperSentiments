@@ -154,4 +154,7 @@ shinyServer(function(input, output, session) {
   
   #suite du code où y aura vos calculs
   
+  
+
+  
 })

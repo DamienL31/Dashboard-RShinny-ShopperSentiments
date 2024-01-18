@@ -19,12 +19,19 @@ ui <- dashboardPage(
       choices = unique(countrycode(data$store_location, "iso2c", "country.name")),
       options = list(`actions-box` = TRUE),
       multiple = TRUE
+    ),
+    div(
+      actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
+      style = "position: absolute; bottom: 10px"
     )
+
     
     
     
   ),
   dashboardBody(
+    
+    
     tabsetPanel(
       tabPanel("Menu",
                fluidRow(
