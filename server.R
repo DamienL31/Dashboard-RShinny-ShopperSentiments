@@ -139,7 +139,6 @@ shinyServer(function(input, output, session) {
     }
   })
   
-<<<<<<< HEAD
   # Graph 1 distribution of review by label
   output$scores_distribution <- renderPlot({ 
     filtered_data <- filtered_data()
@@ -151,12 +150,10 @@ shinyServer(function(input, output, session) {
            y = "Count") +
       geom_text(stat = "count", aes(label = stat(count)), vjust = -0.3)
     
-=======
   # Génération des graphiques (Remplacez avec votre propre logique de graphique)
   output$graph1 <- renderPlot({ 
     # Votre code pour générer le premier graphique
     # on fait une map mais ça devrait marcher quand même 
->>>>>>> e3dc4389f25eaea6bd69a59551b016bcfa7a54fd
     
   })
   output$graph2 <- renderPlot({ 
@@ -165,7 +162,6 @@ shinyServer(function(input, output, session) {
     
   })
   
-<<<<<<< HEAD
   #Graph 3 Temporal analysis 
   
   output$temporal_analysis <- renderPlot({ 
@@ -191,20 +187,8 @@ shinyServer(function(input, output, session) {
   
   
 })
-=======
-  #suite du code où y aura vos calculs
-<<<<<<< HEAD
-=======
-  
-  
-<<<<<<< HEAD
   
   
 })
-=======
 
   
-})
->>>>>>> 1ecccb9c51253d27edb5198722bf7275f178e65b
->>>>>>> e3dc4389f25eaea6bd69a59551b016bcfa7a54fd
->>>>>>> 6d59f3eb36d55ed694bb6743b53fd2dc14f4ecbd
