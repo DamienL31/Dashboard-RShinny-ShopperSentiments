@@ -155,6 +155,12 @@ shinyServer(function(input, output, session) {
   #suite du code où y aura vos calculs
   
   
+<<<<<<< HEAD
   
   
 })
+=======
+
+  
+})
+>>>>>>> 1ecccb9c51253d27edb5198722bf7275f178e65b

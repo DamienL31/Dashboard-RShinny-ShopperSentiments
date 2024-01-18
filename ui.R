@@ -24,6 +24,7 @@ ui <- dashboardPage(
       actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
       style = "position: absolute; bottom: 10px"
     )
+
     
     
     
