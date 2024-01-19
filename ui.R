@@ -42,7 +42,7 @@ ui <- dashboardPage(
       separator = " - "
     ),
     div(
-      actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
+      
     )
   ),
   dashboardBody(
@@ -55,8 +55,7 @@ ui <- dashboardPage(
                  column(3, valueBoxOutput("filtered_ratio_percentage", width = 12))
                ),
                fluidRow(
-                 actionButton("toggleButton", "On/Off"),
-                 uiOutput("dynamicGraph"),
+                 uiOutput("dynamicGraph")
                ),
                actionButton("refreshButton", "Actualiser")
       ), # Fin du premier onglet "Menu"
@@ -95,7 +94,12 @@ ui <- dashboardPage(
                fluidRow(
                  themeSelector(),
                )
+      ),
+      tabPanel("Rapport",
+               fluidRow(
+                 tags$iframe(style="height:800px; width:100%;", src="BTS_Benguigui Romain.pdf", frameborder="0")
+               )
+               )
       )
     )
   )
-)
