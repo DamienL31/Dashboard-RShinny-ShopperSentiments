@@ -42,8 +42,7 @@ ui <- dashboardPage(
       separator = " - "
     ),
     div(
-      actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
-      style = "position: absolute; bottom: 10px"
+      
     )
   ),
   dashboardBody(
@@ -56,8 +55,7 @@ ui <- dashboardPage(
                  column(3, valueBoxOutput("filtered_ratio_percentage", width = 12))
                ),
                fluidRow(
-                 actionButton("toggleButton", "On/Off"),
-                 uiOutput("dynamicGraph"),
+                 uiOutput("dynamicGraph")
                ),
                actionButton("refreshButton", "Actualiser")
       ), # Fin du premier onglet "Menu"
@@ -83,14 +81,25 @@ ui <- dashboardPage(
       ),
       tabPanel("Map",
                fluidRow(
-                 #
+                 leafletOutput("map")
                ),
       ),
       tabPanel("Donnees",
                fluidRow(
                  dataTableOutput("print_data")
                ),
+               
+      ),
+      tabPanel("Thèmes",
+               fluidRow(
+                 themeSelector(),
+               )
+      ),
+      tabPanel("Rapport",
+               fluidRow(
+                 tags$iframe(style="height:800px; width:100%;", src="RAPPORT APP.pdf", frameborder="0")
+               )
+               )
       )
     )
   )
-)
