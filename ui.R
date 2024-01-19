@@ -97,7 +97,7 @@ ui <- dashboardPage(
       ),
       tabPanel("Rapport",
                fluidRow(
-                 tags$iframe(style="height:800px; width:100%;", src="BTS_Benguigui Romain.pdf", frameborder="0")
+                 tags$iframe(style="height:800px; width:100%;", src="RAPPORT APP.pdf", frameborder="0")
                )
                )
       )
