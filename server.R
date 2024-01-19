@@ -12,8 +12,6 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  
-  
   filtered_data <- reactive({
     if (input$continent_filter == "Tous les continents") {
       filtered <- data
@@ -214,9 +212,34 @@ shinyServer(function(input, output, session) {
   output$print_data <- renderDataTable({
     head(filtered_data())
   })
-  
-  #Map
 
+  # Map
+  output$map <- renderLeaflet({
+    filtered_data <- filtered_data()
+    
+    # Agréger les données par latitude et longitude
+    aggregated_data <- filtered_data %>%
+      group_by(latitude, longitude) %>%
+      summarise(n = n())  # Vous pouvez également agréger d'autres informations si nécessaire
+    
+    # Créer la carte Leaflet
+    myMap <- leaflet() %>%
+      addTiles() %>%
+      setView(lng = mean(aggregated_data$longitude), lat = mean(aggregated_data$latitude), zoom = 4)
+    
+    # Ajouter un seul marqueur pour chaque combinaison de latitude et longitude
+    myMap <- myMap %>% addMarkers(
+      data = aggregated_data,
+      lng = ~longitude,
+      lat = ~latitude,
+      popup = ~paste(n, "Avis")
+    )
+    
+    return(myMap)
+  })
   
-
+  
+  
+  
+  
 })

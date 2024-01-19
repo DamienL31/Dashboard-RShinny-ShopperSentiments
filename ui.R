@@ -43,7 +43,6 @@ ui <- dashboardPage(
     ),
     div(
       actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
-      style = "position: absolute; bottom: 10px"
     )
   ),
   dashboardBody(
@@ -83,13 +82,19 @@ ui <- dashboardPage(
       ),
       tabPanel("Map",
                fluidRow(
-                 #
+                 leafletOutput("map")
                ),
       ),
       tabPanel("Donnees",
                fluidRow(
                  dataTableOutput("print_data")
                ),
+               
+      ),
+      tabPanel("Thèmes",
+               fluidRow(
+                 themeSelector(),
+               )
       )
     )
   )
