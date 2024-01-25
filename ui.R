@@ -81,7 +81,7 @@ ui <- dashboardPage(
                  )
                ),
       ),
-      tabPanel("Données",
+      tabPanel("Donnees",
                fluidRow(
                   p("test")
                ),

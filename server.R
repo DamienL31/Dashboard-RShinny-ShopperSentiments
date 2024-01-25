@@ -207,4 +207,9 @@ shinyServer(function(input, output, session) {
       theme(axis.text.x = element_text(angle = 90, hjust = 1))+
       scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month")
   })
+  
+## Table sommaire 
+  output$summaryTable <- renderDataTable({
+    head(data)
+  })
 })
