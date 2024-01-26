@@ -8,6 +8,10 @@ Après une expérience d'achat, nous avons pris l'habitude de laisser une note e
 
 Pour cette application, nous nous sommes servis d'une base de données qui contient des informations sur des magasins, leurs localisations ainsi que des avis laissés par des clients. Toutefois, celle-ci fonctionnera avec différentes bases de données si celles-ci sont du même format.
 
+View of application : 
+
+<img width="952" alt="read" src="https://github.com/DamienL31/Dashboard-RShinny-ShopperSentiments/assets/152622955/e9a94f4d-e759-425d-ad4f-10f1ea6ec9aa">
+
 ## Pour commencer
 
 ### Les prérequis
