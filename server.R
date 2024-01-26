@@ -1,10 +1,7 @@
-source("packages.R")
-source("global.R")
-
 shinyServer(function(input, output, session) {
   
   observe({
-    if (input$continent_filter == "Tous les continents") {
+    if (length(input$continent_filter) == 1 && input$continent_filter == "Tous les continents") {
       updatePickerInput(session, "country_filter", choices = unique(countrycode(data$store_location, "iso2c", "country.name")))
     } else {
       countries_in_continent <- countrycode(data$store_location, "iso2c", "country.name")[countrycode(data$store_location, "iso2c", "continent") %in% input$continent_filter]
@@ -208,8 +205,35 @@ shinyServer(function(input, output, session) {
       scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month")
   })
   
-## Table sommaire 
-  output$summaryTable <- renderDataTable({
-    head(data)
+
+  #Table données
+  output$print_data <- renderDataTable({
+    head(filtered_data())
+  })
+
+  # Map
+  output$map <- renderLeaflet({
+    filtered_data <- filtered_data()
+    
+    # Agréger les données par latitude et longitude
+    aggregated_data <- filtered_data %>%
+      group_by(latitude, longitude) %>%
+      summarise(n = n())  # Vous pouvez également agréger d'autres informations si nécessaire
+    
+    # Créer la carte Leaflet
+    myMap <- leaflet() %>%
+      addTiles() %>%
+      setView(lng = mean(aggregated_data$longitude), lat = mean(aggregated_data$latitude), zoom = 4)
+    
+    # Ajouter un seul marqueur pour chaque combinaison de latitude et longitude
+    myMap <- myMap %>% addMarkers(
+      data = aggregated_data,
+      lng = ~longitude,
+      lat = ~latitude,
+      popup = ~paste(n, "Avis")
+    )
+    
+    return(myMap)
+
   })
 })

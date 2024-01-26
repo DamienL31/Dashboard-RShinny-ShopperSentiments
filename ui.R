@@ -42,8 +42,7 @@ ui <- dashboardPage(
       separator = " - "
     ),
     div(
-      actionButton("generatePDFButton", "Extraire en PDF", class = "bottom-button"),
-      style = "position: absolute; bottom: 10px"
+      
     )
   ),
   dashboardBody(
@@ -56,37 +55,51 @@ ui <- dashboardPage(
                  column(3, valueBoxOutput("filtered_ratio_percentage", width = 12))
                ),
                fluidRow(
-                 actionButton("toggleButton", "On/Off"),
-                 uiOutput("dynamicGraph"),
+                 uiOutput("dynamicGraph")
                ),
                actionButton("refreshButton", "Actualiser")
       ), # Fin du premier onglet "Menu"
       tabPanel("Graphique",
                fluidRow(
                  column(12,
-                        h3("Scores Distribution",  class = "text-center"),
+                        h3("Distribution des notes",  class = "text-center"),
                         plotOutput("scores_distribution", height = "300px") 
                  ),
                  fluidRow(
                    column(12,
-                          h3("Trends in 5 review label over the years",  class = "text-center"),
+                          h3("Tendances des 5 étoiles au fil des années",  class = "text-center"),
                           plotOutput("trends_5", height = "300px")
                    )
                  ),
                  fluidRow(
                    column(12,
-                          h3("Temporal analysis of reviews",  class = "text-center"),
+                          h3("Analyse temporelle des notes",  class = "text-center"),
                           plotOutput("temporal_analysis", height = "400px")
                    )
                  )
                ),
       ),
-      tabPanel("Donnees",
+      tabPanel("Map",
                fluidRow(
-                  p("test")
+                 leafletOutput("map")
                ),
       ),
-      
+      tabPanel("Donnees",
+               fluidRow(
+                 dataTableOutput("print_data")
+               ),
+               
+      ),
+      tabPanel("Thèmes",
+               fluidRow(
+                 themeSelector(),
+               )
+      ),
+      tabPanel("Rapport",
+               fluidRow(
+                 tags$iframe(style="height:800px; width:100%;", src="rapport_app.pdf", frameborder="0")
+               )
+      )
     )
   )
 )

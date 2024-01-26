@@ -1,9 +1,5 @@
 data <- read.csv("DATA/TeePublic_review.csv")
 
-#voir les différents types de données 
-
-dplyr::glimpse(data)
-
 
 #colonne date et month en INT transformation et concaténation 
 data$date <- as.character(data$date)
